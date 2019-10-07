@@ -1,7 +1,7 @@
 package des
 
 import (
-	"cryptography_and_network_security/DES/bits"
+	"github.com/OhYee/cryptography_and_network_security/DES/bits"
 	"log"
 )
 
