@@ -2,6 +2,7 @@ package des
 
 import (
 	"github.com/OhYee/cryptography_and_network_security/DES/bits"
+	"github.com/OhYee/cryptography_and_network_security/util/blackhole"
 	"log"
 )
 
@@ -219,13 +220,7 @@ func DES(input bits.Bits, key bits.Bits) (output bits.Bits) {
 	return
 }
 
-type blackHole struct{}
-
-func (bh blackHole) Write(b []byte) (n int, err error) {
-	return len(b), nil
-}
-
 var (
 	// Logger 日志
-	Logger = log.New(blackHole{}, " |Log| ", 0)
+	Logger = log.New(blockhole.BlackHole{}, " |Log| ", 0)
 )
