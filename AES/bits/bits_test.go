@@ -24,7 +24,7 @@ func Test_stringToByte(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotB := stringToByte(tt.s); gotB != tt.wantB {
+			if gotB := stringToByte(tt.s, 16); gotB != tt.wantB {
 				t.Errorf("stringToByte() = %v, want %v", gotB, tt.wantB)
 			}
 		})
@@ -45,7 +45,7 @@ func TestNewBits(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewBits(tt.s); !reflect.DeepEqual(got.value, tt.want.value) {
+			if got := NewBits(tt.s); !reflect.DeepEqual(got.Value, tt.want.Value) {
 				t.Errorf("NewBits() = %v, want %v", got, tt.want)
 			}
 		})
@@ -132,7 +132,7 @@ func TestBits_Set(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.b.Set(tt.pos); !reflect.DeepEqual(got.value, tt.wantB.value) {
+			if got := tt.b.Set(tt.pos); !reflect.DeepEqual(got.Value, tt.wantB.Value) {
 				t.Errorf("Bits.Set() = %v, want %v", got, tt.wantB)
 			}
 		})
@@ -151,7 +151,7 @@ func TestBits_Clr(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.b.Clr(tt.pos); !reflect.DeepEqual(got.value, tt.wantB.value) {
+			if got := tt.b.Clr(tt.pos); !reflect.DeepEqual(got.Value, tt.wantB.Value) {
 				t.Errorf("Bits.Clr() = %v, want %v", got, tt.wantB)
 			}
 		})
@@ -173,7 +173,7 @@ func TestBits_SetValue(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.b.SetValue(tt.pos, tt.bb); !reflect.DeepEqual(got.value, tt.wantB.value) {
+			if got := tt.b.SetValue(tt.pos, tt.bb); !reflect.DeepEqual(got.Value, tt.wantB.Value) {
 				t.Errorf("Bits.SetValue() = %v, want %v", got, tt.wantB)
 			}
 		})
@@ -195,7 +195,7 @@ func TestBits_Mask(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.b.Mask(tt.l); !bytes.Equal(got.value, tt.want.value) {
+			if got := tt.b.Mask(tt.l); !bytes.Equal(got.Value, tt.want.Value) {
 				t.Errorf("Bits.Mask() = %v, want %v", got, tt.want)
 			}
 		})
