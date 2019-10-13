@@ -3,7 +3,12 @@ package aes
 import (
 	"fmt"
 	"github.com/OhYee/cryptography_and_network_security/AES/bits"
+	"github.com/OhYee/cryptography_and_network_security/util/blackhole"
+	"log"
 )
+
+// Logger 日志
+var Logger = log.New(blockhole.BlackHole{}, "", 0)
 
 var (
 	sBoxTable        = generateSBox()
@@ -143,9 +148,24 @@ func inverse(input [][]byte) (output [][]byte) {
 }
 
 func AES(input string, key string) (output string) {
+	sbox := func(b byte) byte { return sBoxTransfer(b, sBoxTable) }
+	loop := func(f func(int, int)) {
+		for i := 0; i < 4; i++ {
+			for j := 0; j < 4; j++ {
+				f(i, j)
+			}
+		}
+	}
+	print := func(data [][]byte, format string, args ...interface{}) {
+		Logger.Printf(format, args...)
+		for i := 0; i < 4; i++ {
+			Logger.Printf("%02x %02x %02x %02x", data[i][0], data[i][1], data[i][2], data[i][3])
+		}
+		Logger.Printf("\n")
+	}
+
 	plaintext := bits.NewBitsFromString(input, 16)
 	keys := keyExpansion(bits.NewBitsFromString(key, 16))
-
 	p := make([][]byte, 4)
 	for i := 0; i < 4; i++ {
 		p[i] = make([]byte, 4)
@@ -158,120 +178,36 @@ func AES(input string, key string) (output string) {
 	}
 	p = inverse(p)
 
-	sbox := func(b byte) byte { return sBoxTransfer(b, sBoxTable) }
-	loop := func(f func(int, int)) {
-		for i := 0; i < 4; i++ {
-			for j := 0; j < 4; j++ {
-				f(i, j)
-			}
-		}
-	}
-
-	loop(func(i int, j int) {
-		if i == 0 && j == 0 {
-			fmt.Printf("开始\n")
-		}
-		fmt.Printf("%02x ", p[i][j])
-		if j == 3 {
-			fmt.Printf("\n")
-			if i == 3 {
-				fmt.Printf("\n")
-			}
-		}
-	})
+	print(p, "开始")
 
 	loop(func(i int, j int) {
 		p[i][j] ^= keys[0+j][i]
 	})
 
 	for k := 1; k <= 10; k++ {
-		loop(func(i int, j int) {
-			if i == 0 && j == 0 {
-				fmt.Printf("%d开始\n", k)
-			}
-			fmt.Printf("%02x ", p[i][j])
-			if j == 3 {
-				fmt.Printf("\n")
-				if i == 3 {
-					fmt.Printf("\n")
-				}
-			}
-		})
+		print(p, "第%d轮-开始", k)
+		print(keys, "第%d轮-密钥", k)
+
 		// S置换
 		loop(func(i int, j int) {
 			p[i][j] = sbox(p[i][j])
 		})
-		loop(func(i int, j int) {
-			if i == 0 && j == 0 {
-				fmt.Printf("%d置换\n", k)
-			}
-			fmt.Printf("%02x ", p[i][j])
-			if j == 3 {
-				fmt.Printf("\n")
-				if i == 3 {
-					fmt.Printf("\n")
-				}
-			}
-		})
+		print(p, "第%d轮-S置换后", k)
 		// 行置换
 		p = colTransfer(p)
-		loop(func(i int, j int) {
-			if i == 0 && j == 0 {
-				fmt.Printf("%d行\n", k)
-			}
-			fmt.Printf("%02x ", p[i][j])
-			if j == 3 {
-				fmt.Printf("\n")
-				if i == 3 {
-					fmt.Printf("\n")
-				}
-			}
-		})
+		print(p, "第%d轮-行置换后", k)
+
 		// 列置换
 		if k != 10 {
 			p = rowTransfer(p)
 		}
-		loop(func(i int, j int) {
-			if i == 0 && j == 0 {
-				fmt.Printf("%d列\n", k)
-			}
-			fmt.Printf("%02x ", p[i][j])
-			if j == 3 {
-				fmt.Printf("\n")
-				if i == 3 {
-					fmt.Printf("\n")
-				}
-			}
-		})
+		print(p, "第%d轮-列置换后", k)
+
 		// 密钥相加
 		loop(func(i int, j int) {
 			p[i][j] ^= keys[k*4+j][i]
 		})
-		loop(func(i int, j int) {
-			if i == 0 && j == 0 {
-				fmt.Printf("%d结束\n", k)
-			}
-			fmt.Printf("%02x ", p[i][j])
-			if j == 3 {
-				fmt.Printf("\n")
-				if i == 3 {
-					fmt.Printf("\n")
-				}
-			}
-		})
-
-		loop(func(i int, j int) {
-			if i == 0 && j == 0 {
-				fmt.Printf("%d key\n", k)
-			}
-			fmt.Printf("%02x ", keys[k*4+j][i])
-			if j == 3 {
-				fmt.Printf("\n")
-				if i == 3 {
-					fmt.Printf("\n")
-				}
-			}
-		})
+		print(p, "第%d轮-结束", k)
 	}
 
 	p = inverse(p)
