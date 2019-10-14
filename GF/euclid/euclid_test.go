@@ -1,7 +1,6 @@
 package euclid
 
 import (
-	"github.com/OhYee/cryptography_and_network_security/GF"
 	"testing"
 )
 
