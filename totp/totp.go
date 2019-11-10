@@ -1,11 +1,10 @@
-package main
+package totp
 
 import (
 	"crypto/hmac"
 	"crypto/sha1"
 	"encoding/base32"
 	"encoding/binary"
-	"fmt"
 	"time"
 )
 
