@@ -48,6 +48,7 @@ func (reg *register) copy() *register {
 	}
 }
 
+// SHA1 hash function
 func SHA1(input []byte) []byte {
 	rawLength := len(input) * 8
 
@@ -131,7 +132,7 @@ func sum(nums ...uint32) uint32 {
 	for _, value := range nums {
 		res += uint64(value) % uint64((1 << 32))
 	}
-	return uint32(res)
+	return uint32(res % uint64(1<<32))
 }
 
 func f(x uint32, y uint32, z uint32, t int) (ret uint32) {
