@@ -49,29 +49,27 @@ func (reg *register) copy() *register {
 }
 
 func SHA1(input []byte) []byte {
+	rawLength := len(input) * 8
+
 	// Ensure l≡448 mod 512
-	first := true
+	input = append(input, 0x80)
 	for (len(input)*8)%512 != 448 {
-		if first {
-			input = append(input, 0b10000000)
-			first = false
-		} else {
-			input = append(input, 0b00000000)
-		}
+		input = append(input, 0b00000000)
 	}
 
 	// Add the length at the end of input
 	length := make([]byte, 8)
-	l := len(input)
-	binary.BigEndian.PutUint64(length, uint64(l))
+	binary.BigEndian.PutUint64(length, uint64(rawLength))
 	input = append(input, length...)
 
 	// init register
 	reg := newRegister()
 
 	// split by group
-	l = len(input)
+	l := len(input)
 	for i := 0; i*64 < l; i++ {
+		reg2 := reg.copy()
+
 		group := input[i*64 : (i+1)*64]
 
 		// init sub group
@@ -85,24 +83,25 @@ func SHA1(input []byte) []byte {
 		}
 
 		for t := 0; t < 80; t++ {
-			oldReg := reg.copy()
+			temp := reg2.copy()
 
-			reg.A = sum(bits.RotateLeft32(oldReg.A, 5), f(oldReg.B, oldReg.C, oldReg.D, t), oldReg.E, w[t], getK(t))
-			reg.B = oldReg.A
-			reg.C = bits.RotateLeft32(oldReg.B, 30)
-			reg.D = oldReg.C
-			reg.E = oldReg.D
-			Logger.Printf("%d 0x%08x 0x%08x 0x%08x 0x%08x 0x%08x\n", t, reg.A, reg.B, reg.C, reg.D, reg.E)
+			reg2.A = sum(bits.RotateLeft32(temp.A, 5), f(temp.B, temp.C, temp.D, t), temp.E, w[t], getK(t))
+			reg2.B = temp.A
+			reg2.C = bits.RotateLeft32(temp.B, 30)
+			reg2.D = temp.C
+			reg2.E = temp.D
+			Logger.Printf("%d 0x%08x 0x%08x 0x%08x 0x%08x 0x%08x\n", t, reg2.A, reg2.B, reg2.C, reg2.D, reg2.E)
 		}
 
-		reg.A = sum(reg.A, initA)
-		reg.B = sum(reg.B, initB)
-		reg.C = sum(reg.C, initC)
-		reg.D = sum(reg.D, initD)
-		reg.E = sum(reg.E, initE)
+		reg.A = sum(reg.A, reg2.A)
+		reg.B = sum(reg.B, reg2.B)
+		reg.C = sum(reg.C, reg2.C)
+		reg.D = sum(reg.D, reg2.D)
+		reg.E = sum(reg.E, reg2.E)
 		Logger.Printf("%d 0x%08x 0x%08x 0x%08x 0x%08x 0x%08x\n", 80, reg.A, reg.B, reg.C, reg.D, reg.E)
 	}
 
+	// transfer from []uint32 to []byte
 	buf := bytes.NewBuffer([]byte{})
 	temp := make([]byte, 4)
 	fp.MapUint32(func(data uint32) uint32 {
