@@ -4,12 +4,11 @@ import (
 	"math/bits"
 )
 
-func uint32Sum(nums ...uint32) uint32 {
-	var res uint64
+func uint32Sum(nums ...uint32) (res uint32) {
 	for _, value := range nums {
-		res = (res + uint64(value)) % uint64(1 << 32)
+		res = res + value
 	}
-	return uint32(res)
+	return
 }
 
 func uint32Ch(x uint32, y uint32, z uint32) uint32 {
