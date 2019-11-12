@@ -69,7 +69,7 @@ func TestSHA1(t *testing.T) {
 		})
 	}
 
-	for i := 0; i < 100; i++ {
+	for i := 0; i < 10; i++ {
 		length := rand.Intn(10000)
 		b := make([]byte, length)
 		for j := 0; j < length; j++ {
@@ -82,7 +82,7 @@ func TestSHA1(t *testing.T) {
 			want := hash.Sum([]byte{})
 			got := SHA1(b)
 			if !goutils.Equal(got, want) {
-				t.Errorf("plain text is %+v, want %+v, got %+v", b, want, got)
+				t.Errorf("want %+v, got %+v", want, got)
 			}
 		})
 	}
