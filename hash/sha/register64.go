@@ -44,7 +44,7 @@ func (reg register64) toBytes() []byte {
 	// transfer from []uint64 to []byte
 	buf := bytes.NewBuffer([]byte{})
 	temp := make([]byte, 8)
-	fp.MapUint64(func(data uint64) uint64 {
+	fp.MapUint64(func(data uint64, idx int) uint64 {
 		binary.BigEndian.PutUint64(temp, data)
 		buf.Write(temp)
 		return 0
