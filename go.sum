@@ -2,3 +2,5 @@ github.com/OhYee/goutils v0.0.0-20191001152204-178c11d4e62d h1:92sUyNi4er+yTMbwJ
 github.com/OhYee/goutils v0.0.0-20191001152204-178c11d4e62d/go.mod h1:RqaQ1bD+sQAq7zQ/1vAtaojWoFznhAFdWDsMZr7SgkA=
 github.com/OhYee/goutils v0.0.0-20191103124231-baf873b5256a h1:G8LNoddWNJ5wJRKfDwCUYV+SQNnk+UV8RNf800ya5w0=
 github.com/OhYee/goutils v0.0.0-20191103124231-baf873b5256a/go.mod h1:RqaQ1bD+sQAq7zQ/1vAtaojWoFznhAFdWDsMZr7SgkA=
+github.com/OhYee/goutils v0.0.0-20191124151546-4effe4bd60ca h1:42zS/YQ3U1FOSpopMtQxXIH6Sn9y3u+AV3DYOyyEF7I=
+github.com/OhYee/goutils v0.0.0-20191124151546-4effe4bd60ca/go.mod h1:RqaQ1bD+sQAq7zQ/1vAtaojWoFznhAFdWDsMZr7SgkA=
