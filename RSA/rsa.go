@@ -184,7 +184,13 @@ func Decrypto(cryptoText []byte, publicKey []byte) (plainText []byte) {
 		data := make([]byte, 8-extend)
 		data = append(data, cryptoText[i*extend:(i+1)*extend]...)
 		a := nb().SetBytes(data)
-		plainText = append(plainText, pow(a, k, m).Bytes()[0])
+
+		result := pow(a, k, m)
+		if len(result.Bytes()) > 0 {
+			plainText = append(plainText, pow(a, k, m).Bytes()[0])
+		} else {
+			plainText = append(plainText, 0)
+		}
 	}
 	return
 }
