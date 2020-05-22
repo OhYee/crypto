@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/OhYee/cryptography_and_network_security/AES/bits"
-	"github.com/OhYee/goutils"
+	"github.com/OhYee/crypto/AES/bits"
+	cmp "github.com/OhYee/goutils/compare"
 )
 
 func Test_generateSBox(t *testing.T) {
@@ -147,7 +147,6 @@ func Test_rowTransfer(t *testing.T) {
 	}
 }
 
-
 func Test_keyExpansion(t *testing.T) {
 	tests := []struct {
 		name  string
@@ -265,7 +264,7 @@ func Test_keyExpansion(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotW := keyExpansion(tt.key); !goutils.Equal(gotW, tt.wantW) {
+			if gotW := keyExpansion(tt.key); !cmp.Equal(gotW, tt.wantW) {
 				t.Errorf("keyExpansion() = %v, want %v", gotW, tt.wantW)
 			}
 		})

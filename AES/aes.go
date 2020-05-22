@@ -2,14 +2,17 @@ package aes
 
 import (
 	"fmt"
-	"github.com/OhYee/cryptography_and_network_security/AES/bits"
-	"github.com/OhYee/cryptography_and_network_security/GF"
-	"github.com/OhYee/cryptography_and_network_security/util/blackhole"
-	"log"
+	"github.com/OhYee/rainbow/color"
+	"github.com/OhYee/rainbow/log"
+
+	"github.com/OhYee/crypto/AES/bits"
+	gf "github.com/OhYee/crypto/GF"
 )
 
 // Logger 日志
-var Logger = log.New(blockhole.BlackHole{}, "", 0)
+var Logger = log.New().SetOutputToNil().SetPrefix(func(s string) string {
+	return color.New().SetFontBold().Colorful("Log     ")
+})
 
 var (
 	sBoxTable        = generateSBox()

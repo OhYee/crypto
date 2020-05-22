@@ -1,9 +1,10 @@
 package des
 
 import (
-	"github.com/OhYee/cryptography_and_network_security/DES/bits"
 	"reflect"
 	"testing"
+
+	"github.com/OhYee/crypto/DES/bits"
 )
 
 func Test_inverse(t *testing.T) {
@@ -108,6 +109,7 @@ func TestPBox(t *testing.T) {
 }
 
 func TestDES(t *testing.T) {
+	Logger.SetOutputToStdout()
 	type args struct {
 		input bits.Bits
 		key   bits.Bits

@@ -3,9 +3,10 @@ package sha
 import (
 	"crypto/sha512"
 	"fmt"
-	"github.com/OhYee/goutils"
 	"math/rand"
 	"testing"
+
+	cmp "github.com/OhYee/goutils/compare"
 )
 
 func TestSHA384(t *testing.T) {
@@ -89,7 +90,7 @@ func TestSHA384(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := SHA384(tt.input); !goutils.Equal(got, tt.want) {
+			if got := SHA384(tt.input); !cmp.Equal(got, tt.want) {
 				t.Errorf("Want %+v got %+v\n", tt.want, got)
 			}
 		})
@@ -107,7 +108,7 @@ func TestSHA384(t *testing.T) {
 			hash.Write(b)
 			want := hash.Sum([]byte{})
 			got := SHA384(b)
-			if !goutils.Equal(got, want) {
+			if !cmp.Equal(got, want) {
 				t.Errorf("want %+v, got %+v", want, got)
 			}
 		})

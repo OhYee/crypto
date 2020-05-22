@@ -1,10 +1,14 @@
 package euclid
 
 import (
-	"github.com/OhYee/cryptography_and_network_security/util/blackhole"
-	"log"
+	"github.com/OhYee/rainbow/color"
+	"github.com/OhYee/rainbow/log"
 	"reflect"
 )
+
+var Logger = log.New().SetOutputToNil().SetPrefix(func(s string) string {
+	return color.New().SetFontBold().Colorful("Log     ")
+})
 
 type Operator func(int, int) int
 type Operator2 func(int, int) (int, int)
@@ -35,15 +39,10 @@ func ExGCD(a int, b int, plus Operator, multiplus Operator, divide Operator2) (r
 	x = y
 	y = plus(t, -multiplus(c, y))
 
-	if  reflect.ValueOf(plus).Pointer() ==  reflect.ValueOf(Plus).Pointer() {
+	if reflect.ValueOf(plus).Pointer() == reflect.ValueOf(Plus).Pointer() {
 		Logger.Printf("%d * %d + %d * %d = %d\n", a, x, b, y, r)
 	} else {
 		Logger.Printf("%b * %b + %b * %b = %b\n", a, x, b, y, r)
 	}
 	return r, x, y
 }
-
-var (
-	// Logger 日志
-	Logger = log.New(blockhole.BlackHole{}, " |Log| ", 0)
-)

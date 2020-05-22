@@ -2,9 +2,10 @@ package rsa
 
 import (
 	"fmt"
-	"github.com/OhYee/goutils"
 	"math/big"
 	"testing"
+
+	cmp "github.com/OhYee/goutils/compare"
 )
 
 func Test_pow(t *testing.T) {
@@ -202,11 +203,11 @@ func Test_Crypto2(t *testing.T) {
 
 	for _, tt := range testcases {
 		gotCryotoText := Encrypto(tt.plainText, tt.privateKey)
-		if !goutils.Equal(gotCryotoText, tt.cryptoText) {
+		if !cmp.Equal(gotCryotoText, tt.cryptoText) {
 			t.Errorf("Encrypto got %v, want %v\n", gotCryotoText, tt.cryptoText)
 		}
 		gotPlainText := Decrypto(tt.cryptoText, tt.publicKey)
-		if !goutils.Equal(gotPlainText, tt.plainText) {
+		if !cmp.Equal(gotPlainText, tt.plainText) {
 			t.Errorf("Decrypto got %v, want %v\n", gotPlainText, tt.plainText)
 		}
 	}

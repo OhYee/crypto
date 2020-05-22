@@ -1,7 +1,7 @@
 package gf
 
 import (
-	"github.com/OhYee/cryptography_and_network_security/GF/euclid"
+	"github.com/OhYee/crypto/GF/euclid"
 )
 
 func abs(n int) int {

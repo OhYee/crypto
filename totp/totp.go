@@ -3,17 +3,11 @@ package totp
 import (
 	"crypto/hmac"
 	"crypto/sha1"
-	"encoding/base32"
 	"encoding/binary"
 	"time"
 )
 
-func Totp(secret string, diff uint64, digits int) (code uint32, left uint64, err error) {
-	key, err := base32.StdEncoding.DecodeString(secret)
-	if err != nil {
-		return
-	}
-
+func Totp(key []byte, diff uint64, digits int) (code uint32, left uint64, err error) {
 	b := make([]byte, 8)
 	timeNow := uint64(time.Now().Unix())
 	binary.BigEndian.PutUint64(b, timeNow/diff)
@@ -38,4 +32,3 @@ func Totp(secret string, diff uint64, digits int) (code uint32, left uint64, err
 
 	return
 }
-

@@ -1,14 +1,19 @@
 package base64
 
 import (
-	"fmt"
 	"bytes"
 	"strings"
 )
 
-const char = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+const DefaultBase64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
-func BASE64(input []byte) string {
+func Base64(input []byte, key ...rune) string {
+	var k string
+	if len(key) == len(DefaultBase64) {
+		k = string(key)
+	} else {
+		k = DefaultBase64
+	}
 
 	buf := bytes.NewBufferString("")
 	extra := 0
@@ -29,7 +34,7 @@ func BASE64(input []byte) string {
 	for i := 0; i < l; i++ {
 		num := (getBit(i*6) << 5) | (getBit(i*6+1) << 4) | (getBit(i*6+2) << 3) | (getBit(i*6+3) << 2) | (getBit(i*6+4) << 1) | (getBit(i*6+5) << 0)
 		// fmt.Printf("%d %06b\n", num, num)
-		buf.WriteByte(char[num])
+		buf.WriteByte(k[num])
 	}
 	for i := 0; i < extra; i++ {
 		buf.WriteRune('=')
@@ -37,7 +42,14 @@ func BASE64(input []byte) string {
 	return buf.String()
 }
 
-func UNBASE64(input string) []byte {
+func DeBase64(input string, key ...rune) []byte {
+	var k string
+	if len(key) == len(DefaultBase64) {
+		k = string(key)
+	} else {
+		k = DefaultBase64
+	}
+
 	buf := bytes.NewBuffer([]byte{})
 	var temp byte
 	var num int
@@ -46,18 +58,17 @@ func UNBASE64(input string) []byte {
 		if c == '=' {
 			extra++
 		} else {
-			b := byte(strings.IndexByte(char, byte(c)))
-			fmt.Printf("%06b\n",b)
+			b := byte(strings.IndexByte(k, byte(c)))
 			switch num {
 			case 0:
 				temp = b << 2
 				num = 2
 			case 2:
-				buf.WriteByte(temp | (b>>4))
+				buf.WriteByte(temp | (b >> 4))
 				temp = b << 4
 				num = 4
 			case 4:
-				buf.WriteByte(temp | (b>>2))
+				buf.WriteByte(temp | (b >> 2))
 				temp = b << 6
 				num = 6
 			case 6:

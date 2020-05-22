@@ -1,6 +1,10 @@
-github.com/OhYee/goutils v0.0.0-20191001152204-178c11d4e62d h1:92sUyNi4er+yTMbwJk50Oyugbyv3sfJuwtwKaXVlK4w=
-github.com/OhYee/goutils v0.0.0-20191001152204-178c11d4e62d/go.mod h1:RqaQ1bD+sQAq7zQ/1vAtaojWoFznhAFdWDsMZr7SgkA=
-github.com/OhYee/goutils v0.0.0-20191103124231-baf873b5256a h1:G8LNoddWNJ5wJRKfDwCUYV+SQNnk+UV8RNf800ya5w0=
-github.com/OhYee/goutils v0.0.0-20191103124231-baf873b5256a/go.mod h1:RqaQ1bD+sQAq7zQ/1vAtaojWoFznhAFdWDsMZr7SgkA=
-github.com/OhYee/goutils v0.0.0-20191124151546-4effe4bd60ca h1:42zS/YQ3U1FOSpopMtQxXIH6Sn9y3u+AV3DYOyyEF7I=
-github.com/OhYee/goutils v0.0.0-20191124151546-4effe4bd60ca/go.mod h1:RqaQ1bD+sQAq7zQ/1vAtaojWoFznhAFdWDsMZr7SgkA=
+github.com/OhYee/goutils v0.0.0-20200402075346-bfaa3d7ac10e/go.mod h1:RqaQ1bD+sQAq7zQ/1vAtaojWoFznhAFdWDsMZr7SgkA=
+github.com/OhYee/goutils v1.0.0 h1:EBY/x5XkUhyQxJHpQtif0fcoSv4Dxb9CpJhewJlrTpw=
+github.com/OhYee/goutils v1.0.0/go.mod h1:RqaQ1bD+sQAq7zQ/1vAtaojWoFznhAFdWDsMZr7SgkA=
+github.com/OhYee/rainbow v1.0.2/go.mod h1:W8viYm/WUrybXqXxbuTtUqvNx6p9mxpTmaI9DH/VNLs=
+github.com/OhYee/rainbow v1.0.3 h1:9aG4N57tppT38S5+mHVKFUoMuhCUe9TQGshev/lV+0Y=
+github.com/OhYee/rainbow v1.0.3/go.mod h1:W8viYm/WUrybXqXxbuTtUqvNx6p9mxpTmaI9DH/VNLs=
+github.com/OhYee/wasm v0.0.1 h1:4NggYrukYOgYS/dFcc0b9xySWTdTZWCixhJg7HZELiE=
+github.com/OhYee/wasm v0.0.1/go.mod h1:MGF34svx7DisyMcF+xT4QJP8VkKSz8dox1jNbTfQ44g=
+github.com/OhYee/wasm v0.0.2 h1:tLQAYUlweWLCZNhiaWvJsOfrXlWwsDblSLTikq9O5ak=
+github.com/OhYee/wasm v0.0.2/go.mod h1:MGF34svx7DisyMcF+xT4QJP8VkKSz8dox1jNbTfQ44g=

@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/OhYee/cryptography_and_network_security/AES"
-	"github.com/OhYee/cryptography_and_network_security/DES"
-	"github.com/OhYee/cryptography_and_network_security/GF"
-	"github.com/OhYee/cryptography_and_network_security/GF/euclid"
 	"os"
+
+	aes "github.com/OhYee/crypto/AES"
+	des "github.com/OhYee/crypto/DES"
+	gf "github.com/OhYee/crypto/GF"
+	"github.com/OhYee/crypto/GF/euclid"
 )
 
 func main() {
@@ -19,4 +20,5 @@ func main() {
 	fmt.Printf("%d %d %d\n", r, x, y)
 	r, x, y = euclid.ExGCD(0b100011011, 0b10000011, gf.Plus, gf.Multiplus, gf.Divide)
 	fmt.Printf("%d %d %d\n", r, x, y)
+
 }

@@ -6,11 +6,12 @@ import (
 	"crypto/sha256"
 	"crypto/sha512"
 	"fmt"
-	"github.com/OhYee/cryptography_and_network_security/hash/sha"
-	"github.com/OhYee/goutils"
 	"math/rand"
 	"reflect"
 	"testing"
+
+	"github.com/OhYee/crypto/hash/sha"
+	cmp "github.com/OhYee/goutils/compare"
 )
 
 func TestHMAC(t *testing.T) {
@@ -68,7 +69,7 @@ func TestHMAC(t *testing.T) {
 			hash.Write(message)
 			want := hash.Sum([]byte{})
 			got := HMAC(key, message, sha.SHA1, 64)
-			if !goutils.Equal(got, want) {
+			if !cmp.Equal(got, want) {
 				t.Errorf("want %+v, got %+v", want, got)
 			}
 		})
@@ -78,7 +79,7 @@ func TestHMAC(t *testing.T) {
 			hash.Write(message)
 			want := hash.Sum([]byte{})
 			got := HMAC(key, message, sha.SHA256, 64)
-			if !goutils.Equal(got, want) {
+			if !cmp.Equal(got, want) {
 				t.Errorf("want %+v, got %+v", want, got)
 			}
 		})
@@ -88,7 +89,7 @@ func TestHMAC(t *testing.T) {
 			hash.Write(message)
 			want := hash.Sum([]byte{})
 			got := HMAC(key, message, sha.SHA512, 128)
-			if !goutils.Equal(got, want) {
+			if !cmp.Equal(got, want) {
 				t.Errorf("want %+v, got %+v", want, got)
 			}
 		})

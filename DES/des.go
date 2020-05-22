@@ -1,10 +1,14 @@
 package des
 
 import (
-	"github.com/OhYee/cryptography_and_network_security/DES/bits"
-	"github.com/OhYee/cryptography_and_network_security/util/blackhole"
-	"log"
+	"github.com/OhYee/crypto/DES/bits"
+	"github.com/OhYee/rainbow/color"
+	"github.com/OhYee/rainbow/log"
 )
+
+var Logger = log.New().SetOutputToNil().SetPrefix(func(s string) string {
+	return color.New().SetFontBold().Colorful("Log     ")
+}).SetNewLine(true)
 
 var (
 	// 初始置换
@@ -158,11 +162,16 @@ func pbox(input bits.Bits, key []int, inputLength int, outputLength int) (output
 }
 
 func f(input bits.Bits, key bits.Bits) (output bits.Bits) {
-	output = input                    // 32 bits
+	output = input // 32 bits
+	Logger.Printf("%8s\t0x%08x", "input", output)
 	output = pbox(output, ep, 32, 48) // 48 bits
-	output = output ^ key             // 48 bits
-	output = sbox(output)             // 32 bits
+	Logger.Printf("%8s\t0x%08x", "ep", output)
+	output = output ^ key // 48 bits
+	Logger.Printf("%8s\t0x%08x", "xor", output)
+	output = sbox(output) // 32 bits
+	Logger.Printf("%8s\t0x%08x", "sbox", output)
 	output = pbox(output, pp, 32, 32) // 32 bits
+	Logger.Printf("%8s\t0x%08x", "pp", output)
 	return
 }
 
@@ -199,8 +208,7 @@ func DES(input bits.Bits, key bits.Bits) (output bits.Bits) {
 	L[0] = (output >> 32).Mask(32) // 32 bits
 	R[0] = output.Mask(32)         // 32 bits
 
-	Logger.Printf("No.\tSubKey\t\tL\t\tR\n")
-	Logger.Printf("IP\t\t\t0x%08x\t0x%08x\n", L[0], R[0])
+	Logger.Printf("%8s\t\t\tL: 0x%08x\tR: 0x%08x", "IP", L[0], R[0])
 
 	keys := getSubKey(key) // 48 bits
 
@@ -213,14 +221,12 @@ func DES(input bits.Bits, key bits.Bits) (output bits.Bits) {
 		L[next] = R[this]
 		R[next] = temp ^ L[this]
 
-		Logger.Printf("%d\t0x%012x\t0x%08x\t0x%08x\n", i+1, keys[i], L[next], R[next])
+		Logger.Printf("%d\tKey: 0x%012x\tL: 0x%08x\tR: 0x%08x", i+1, keys[i], L[next], R[next])
 	}
 	output = (R[runCount&1] << 32) | L[runCount&1] // 64 bits
+	Logger.Printf("%s\t0x%08x", "output", output)
 	output = pbox(output, inverse(ip), 64, 64)
+	Logger.Printf("%s\t0x%08x", "invise-ip", output)
+
 	return
 }
-
-var (
-	// Logger 日志
-	Logger = log.New(blockhole.BlackHole{}, " |Log| ", 0)
-)

@@ -34,7 +34,7 @@ func TestBASE64(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := BASE64(tt.input); got != tt.want {
+			if got := Base64(tt.input); got != tt.want {
 				t.Errorf("BASE64() = %v, want %v", got, tt.want)
 			}
 		})
@@ -70,7 +70,7 @@ func TestUNBASE64(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := UNBASE64(tt.input); !reflect.DeepEqual(got, tt.want) {
+			if got := DeBase64(tt.input); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("UNBASE64() = %v, want %v", got, tt.want)
 			}
 		})

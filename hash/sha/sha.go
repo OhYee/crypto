@@ -2,11 +2,14 @@ package sha
 
 import (
 	"encoding/binary"
-	"github.com/OhYee/cryptography_and_network_security/util/blackhole"
-	"log"
+
+	"github.com/OhYee/rainbow/color"
+	"github.com/OhYee/rainbow/log"
 )
 
-var Logger = log.New(blockhole.BlackHole{}, "", 0)
+var Logger = log.New().SetOutputToNil().SetPrefix(func(s string) string {
+	return color.New().SetFontBold().Colorful("Log     ")
+})
 
 type sha struct{}
 
