@@ -135,3 +135,31 @@ func TestEncrypto(t *testing.T) {
 		})
 	}
 }
+
+func TestDecrypto(t *testing.T) {
+	Logger.SetOutputToStdout()
+	type args struct {
+		input bits.Bits
+		key   bits.Bits
+	}
+	tests := []struct {
+		name       string
+		plaintext  bits.Bits
+		key        bits.Bits
+		cryptotext bits.Bits
+	}{
+		{
+			name:       "standard",
+			plaintext:  0xda02ce3a89ecac3b,
+			key:        0x0F1571C947D9E859,
+			cryptotext: 0x02468ACEECA86420,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotOutput := Decrypto(tt.plaintext, tt.key); !reflect.DeepEqual(gotOutput, tt.cryptotext) {
+				t.Errorf("Decrypto() = %016x, want %016x", gotOutput, tt.cryptotext)
+			}
+		})
+	}
+}

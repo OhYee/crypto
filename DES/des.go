@@ -230,3 +230,37 @@ func Encrypto(input bits.Bits, key bits.Bits) (output bits.Bits) {
 
 	return
 }
+
+// Decrypto DES 解密算法实现
+func Decrypto(input bits.Bits, key bits.Bits) (output bits.Bits) {
+	var temp bits.Bits
+	L := make([]bits.Bits, 2)
+	R := make([]bits.Bits, 2)
+
+	output = pbox(input, ip, 64, 64)
+
+	L[0] = (output >> 32).Mask(32) // 32 bits
+	R[0] = output.Mask(32)         // 32 bits
+
+	Logger.Printf("%8s\t\t\tL: 0x%08x\tR: 0x%08x", "IP", L[0], R[0])
+
+	keys := getSubKey(key) // 48 bits
+
+	for i := 0; i < runCount; i++ {
+		this := i & 1
+		next := (i ^ 1) & 1
+
+		temp = f(R[this], keys[runCount-1-i]) // 32 bits
+
+		L[next] = R[this]
+		R[next] = temp ^ L[this]
+
+		Logger.Printf("%d\tKey: 0x%012x\tL: 0x%08x\tR: 0x%08x", i+1, keys[i], L[next], R[next])
+	}
+	output = (R[runCount&1] << 32) | L[runCount&1] // 64 bits
+	Logger.Printf("%s\t0x%08x", "output", output)
+	output = pbox(output, inverse(ip), 64, 64)
+	Logger.Printf("%s\t0x%08x", "invise-ip", output)
+
+	return
+}
