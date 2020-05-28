@@ -168,7 +168,7 @@ func main() {
 		}
 		return nil, errors.New("Want Uint8Array, number, number arguments")
 	})
-	crypto.ExportFunction("des", func(this js.Value, args []js.Value) (interface{}, error) {
+	crypto.ExportFunction("des_encrypto", func(this js.Value, args []js.Value) (interface{}, error) {
 		if len(args) >= 2 &&
 			args[0].Type() == js.TypeObject &&
 			args[1].Type() == js.TypeObject {
@@ -179,14 +179,32 @@ func main() {
 			js.CopyBytesToGo(key, args[1])
 
 			return bytes.FromUint64(
-				uint64(des.DES(
+				uint64(des.Encrypto(
 					bits.Bits(bytes.ToUint64(input)),
 					bits.Bits(bytes.ToUint64(key)),
 				)),
 			), nil
 		}
 		return nil, errors.New("Argument must be Uint8Array, Uint8Array")
+	})
+	crypto.ExportFunction("des_decrypto", func(this js.Value, args []js.Value) (interface{}, error) {
+		if len(args) >= 2 &&
+			args[0].Type() == js.TypeObject &&
+			args[1].Type() == js.TypeObject {
+			input := make([]byte, args[0].Length())
+			key := make([]byte, args[1].Length())
 
+			js.CopyBytesToGo(input, args[0])
+			js.CopyBytesToGo(key, args[1])
+
+			return bytes.FromUint64(
+				uint64(des.Decrypto(
+					bits.Bits(bytes.ToUint64(input)),
+					bits.Bits(bytes.ToUint64(key)),
+				)),
+			), nil
+		}
+		return nil, errors.New("Argument must be Uint8Array, Uint8Array")
 	})
 	crypto.Run()
 }
