@@ -197,8 +197,8 @@ func getSubKey(key bits.Bits) (output []bits.Bits) {
 
 const runCount = 16
 
-// DES 算法实现
-func DES(input bits.Bits, key bits.Bits) (output bits.Bits) {
+// Encrypto DES 加密算法实现
+func Encrypto(input bits.Bits, key bits.Bits) (output bits.Bits) {
 	var temp bits.Bits
 	L := make([]bits.Bits, 2)
 	R := make([]bits.Bits, 2)

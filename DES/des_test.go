@@ -108,7 +108,7 @@ func TestPBox(t *testing.T) {
 	}
 }
 
-func TestDES(t *testing.T) {
+func TestEncrypto(t *testing.T) {
 	Logger.SetOutputToStdout()
 	type args struct {
 		input bits.Bits
@@ -129,8 +129,8 @@ func TestDES(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotOutput := DES(tt.plaintext, tt.key); !reflect.DeepEqual(gotOutput, tt.cryptotext) {
-				t.Errorf("DES() = %016x, want %016x", gotOutput, tt.cryptotext)
+			if gotOutput := Encrypto(tt.plaintext, tt.key); !reflect.DeepEqual(gotOutput, tt.cryptotext) {
+				t.Errorf("Encrypto() = %016x, want %016x", gotOutput, tt.cryptotext)
 			}
 		})
 	}
